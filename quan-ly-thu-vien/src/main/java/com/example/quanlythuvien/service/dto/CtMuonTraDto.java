@@ -9,11 +9,11 @@ import java.time.LocalDate;
  * A DTO for the {@link com.example.quanlythuvien.domain.CtMuonTra} entity
  */
 @Data
-public class CtMuonTraDto implements Serializable {
-    private final Integer id;
-    private final MuonTraDto maMuonTra;
-    private final SachDto maSach;
-    private final String ghiChu;
-    private final Boolean daTra;
-    private final LocalDate ngayTra;
+public class CtMuonTraDto {
+    private Integer id;
+    private MuonTraDto maMuonTra;
+    private SachDto maSach;
+    private String ghiChu;
+    private Boolean daTra;
+    private LocalDate ngayTra;
 }

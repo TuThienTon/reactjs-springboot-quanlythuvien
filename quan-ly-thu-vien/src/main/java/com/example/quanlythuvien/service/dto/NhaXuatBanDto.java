@@ -4,14 +4,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * A DTO for the {@link com.example.quanlythuvien.domain.NhaXuatBan} entity
- */
 @Data
-public class NhaXuatBanDto implements Serializable {
-    private final Integer id;
-    private final String tenNxb;
-    private final String diaChi;
-    private final String email;
-    private final String thongTinNguoiDaiDien;
+public class NhaXuatBanDto {
+    private Integer id;
+    private String tenNxb;
+    private String diaChi;
+    private String email;
+    private String thongTinNguoiDaiDien;
 }
