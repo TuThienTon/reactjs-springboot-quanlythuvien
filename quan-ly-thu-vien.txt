@@ -1,0 +1,126 @@
+CREATE SCHEMA `quan_ly_thu_vien` ;
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`tac_gia` (
+  `ma_tac_gia` INT NOT NULL AUTO_INCREMENT,
+  `ten_tac_gia` VARCHAR(45) NULL,
+  `website` VARCHAR(100) NULL,
+  `ghi_chu` VARCHAR(1000) NULL,
+  PRIMARY KEY (`ma_tac_gia`));
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`the_loai` (
+  `ma_the_loai` INT NOT NULL AUTO_INCREMENT,
+  `ten_the_loai` VARCHAR(50) NULL,
+  PRIMARY KEY (`ma_the_loai`));
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`nha_xuat_ban` (
+  `ma_nxb` INT NOT NULL AUTO_INCREMENT,
+  `ten_nxb` NVARCHAR(50) NULL,
+  `dia_chi` NVARCHAR(100) NULL,
+  `email` VARCHAR(45) NULL,
+  `thong_tin_nguoi_dai_dien` VARCHAR(100) NULL,
+  PRIMARY KEY (`ma_nxb`));
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`sach` (
+  `ma_sach` INT NOT NULL AUTO_INCREMENT,
+  `ten_sach` VARCHAR(45) NULL,
+  `ma_tac_gia` INT NULL,
+  `ma_the_loai` INT NULL,
+  `ma_nxb` INT NULL,
+  `nam_xuat_ban` VARCHAR(45) NULL,
+  PRIMARY KEY (`ma_sach`),
+  INDEX `FK_SACH_TACGIA_idx` (`ma_tac_gia` ASC) VISIBLE,
+  INDEX `FK_SACH_THELOAI_idx` (`ma_the_loai` ASC) VISIBLE,
+  INDEX `FK_SACH_NXB_idx` (`ma_nxb` ASC) VISIBLE,
+  CONSTRAINT `FK_SACH_TACGIA`
+    FOREIGN KEY (`ma_tac_gia`)
+    REFERENCES `quan_ly_thu_vien`.`tac_gia` (`ma_tac_gia`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_SACH_THELOAI`
+    FOREIGN KEY (`ma_the_loai`)
+    REFERENCES `quan_ly_thu_vien`.`the_loai` (`ma_the_loai`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_SACH_NXB`
+    FOREIGN KEY (`ma_nxb`)
+    REFERENCES `quan_ly_thu_vien`.`nha_xuat_ban` (`ma_nxb`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`the_thu_vien` (
+  `so_the` INT NOT NULL AUTO_INCREMENT,
+  `ngay_bat_dau` DATE NULL,
+  `ngay_het_han` DATE NULL,
+  `ghi_chu` NVARCHAR(1000) NULL,
+  PRIMARY KEY (`so_the`));
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`doc_gia` (
+  `ma_doc_gia` INT NOT NULL AUTO_INCREMENT,
+  `ten_doc_gia` NVARCHAR(45) NULL,
+  `dia_chi` NVARCHAR(100) NULL,
+  `so_the` INT NULL,
+  PRIMARY KEY (`ma_doc_gia`),
+  INDEX `FK_DOCGIA_THETHUVIEN_idx` (`so_the` ASC) VISIBLE,
+  CONSTRAINT `FK_DOCGIA_THETHUVIEN`
+    FOREIGN KEY (`so_the`)
+    REFERENCES `quan_ly_thu_vien`.`the_thu_vien` (`so_the`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`nhan_vien` (
+  `ma_nhan_vien` INT NOT NULL AUTO_INCREMENT,
+  `ho_ten` NVARCHAR(45) NULL,
+  `ngay_sinh` DATE NULL,
+  `so_dien_thoai` INT NULL,
+  PRIMARY KEY (`ma_nhan_vien`));
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`muon_tra` (
+  `ma_muon_tra` INT NOT NULL AUTO_INCREMENT,
+  `so_the` INT NULL,
+  `ma_nhan_vien` INT NULL,
+  `ngay_muon` DATE NULL,
+  PRIMARY KEY (`ma_muon_tra`),
+  INDEX `FK_MUONTRA_THETHUVIEN_idx` (`so_the` ASC) VISIBLE,
+  INDEX `FK_MUONTRA_NHANVIEN_idx` (`ma_nhan_vien` ASC) VISIBLE,
+  CONSTRAINT `FK_MUONTRA_THETHUVIEN`
+    FOREIGN KEY (`so_the`)
+    REFERENCES `quan_ly_thu_vien`.`the_thu_vien` (`so_the`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_MUONTRA_NHANVIEN`
+    FOREIGN KEY (`ma_nhan_vien`)
+    REFERENCES `quan_ly_thu_vien`.`nhan_vien` (`ma_nhan_vien`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+GO
+
+CREATE TABLE `quan_ly_thu_vien`.`ct_muon_tra` (
+  `ma_ct_muon_tra` INT NOT NULL AUTO_INCREMENT,
+  `ma_muon_tra` INT NULL,
+  `ma_sach` INT NULL,
+  `ghi_chu` VARCHAR(45) NULL,
+  `da_tra` TINYINT(1) NULL,
+  `ngay_tra` DATE NULL,
+  PRIMARY KEY (`ma_ct_muon_tra`),
+  INDEX `FK_CT_MUONTRA_SACH_idx` (`ma_sach` ASC) VISIBLE,
+  INDEX `FK_CT_MUONTRA_idx` (`ma_muon_tra` ASC) VISIBLE,
+  CONSTRAINT `FK_CT_MUONTRA`
+    FOREIGN KEY (`ma_muon_tra`)
+    REFERENCES `quan_ly_thu_vien`.`muon_tra` (`ma_muon_tra`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_CT_MUONTRA_SACH`
+    FOREIGN KEY (`ma_sach`)
+    REFERENCES `quan_ly_thu_vien`.`sach` (`ma_sach`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+GO
