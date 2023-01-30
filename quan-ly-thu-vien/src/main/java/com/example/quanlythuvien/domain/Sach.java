@@ -3,6 +3,8 @@ package com.example.quanlythuvien.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @Table(name = "sach")
@@ -26,7 +28,7 @@ public class Sach {
     @JoinColumn(name = "ma_nxb")
     private NhaXuatBan maNxb;
 
-    @Column(name = "nam_xuat_ban", length = 45)
-    private String namXuatBan;
+    @Column(name = "nam_xuat_ban")
+    private LocalDate namXuatBan;
 
 }
